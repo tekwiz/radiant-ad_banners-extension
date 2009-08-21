@@ -5,7 +5,7 @@ class AdBanner < ActiveRecord::Base
 
   validates_presence_of :name, :asset_id#, :link_url
   validates_format_of :link_url, :allow_blank => true,
-                      :with => /\Ahttps?:\/\/.+\z/,
+                      :with => URI.regexp(['http', 'https']),
                       :message => "doesn't look like a URL"
 
   def self.select_banner(options = {})
