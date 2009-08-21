@@ -31,9 +31,20 @@ more ad banners can be displayed on a page using the supplied Radius tag.
 To associate an image with an ad banner, you need to have previously added it
 to your (paperclipped) assets bucket.
 
+=== Special Asset Thumbnail Version
+
+If you wish to add a new thumbnail version to use for the banner you should add the following Radiant
+Configurations or Settings via the Settings extension.  The default is "original"
+
+  ad_banner.asset_version : your_ad_banner_asset_version
+
+Then you should add to the <code>assets.additional_thumbnails</code> configuration.  For example:
+
+  assets.additional_thumbnails : normal=640x640>,your_ad_banner_asset_version=200x50>
+
 == Example
 
-To display a random ad banner, use
+=== To display a random ad banner, use
 
   <r:ad_banner />
 
@@ -46,10 +57,23 @@ A name attribute can also be specified to show a specific ad banner
 
   <r:ad_banner name="Ad Banner Name" />
 
+A version attribute can also be specified to use a specific thumbnail version of the asset.
+If you do not specify a version, the extension will attempt to use the version specified in the
+<code>ad_banner.asset_version</code> configuration, and will revert to "original" if that setting
+isn't set.
+
+  <r:ad_banner version="icon" />
+
 When an ad banner is specified by name it is removed from the list of eligible
 banners to display with a bare <r:ad_banner/> tag. If, for some reason, you want
 to display the same banner multiple times on a page you must use the name
 attribute to do so.
+
+=== To iterate through all the banners, use
+
+  <r:ad_banners:each>
+    <r:ad_banners:image_link [version="asset_version"] />
+  </r:ad_banners>
 
 == Dependencies
 
