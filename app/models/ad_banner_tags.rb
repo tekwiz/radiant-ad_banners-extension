@@ -7,7 +7,7 @@ module AdBannerTags
     A banner will only appear once on a given page unless otherwise forced with the @name@ attribute.
 
     *Usage:*
-    <pre><code><r:ad_banner [name="banner_name"]/></code></pre>
+    <pre><code><r:ad_banner [name="banner_name"] [version="asset_version"] /></code></pre>
   }
   tag 'ad_banner' do |tag|
     @selected_banners ||= []
@@ -25,7 +25,7 @@ module AdBannerTags
           result << %Q{ target="#{ad_banner.link_target}"} unless ad_banner.link_target.blank?
           result << '>'
         end
-        result << %Q{<img src="#{image_src}" title="#{ad_banner.name}" alt="#{ad_banner.asset.caption || ad_banner.asset.title}" />}
+        result << %Q{<img src="#{ad_banner.image_src(tag.attr['version'])}" title="#{ad_banner.name}" alt="#{ad_banner.asset.caption || ad_banner.asset.title}" />}
         result << '</a>' if ad_banner.link_url
       end
     end

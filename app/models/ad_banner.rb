@@ -17,10 +17,10 @@ class AdBanner < ActiveRecord::Base
   end
 
   def image_src( version = nil )
-    version = Radiant::Config["ad_banner.asset_version"].to_sym if version.nil?
+    version = Radiant::Config["ad_banner.asset_version"] if version.nil?
     version = :ad_banner if version.nil?
-    version = :original if Asset.thumbnail_sizes(version).nil?
+    version = :original if Asset.thumbnail_sizes[version.to_sym].nil?
     
-    ad_banner.asset.thumbnail(version)
+    self.asset.thumbnail(version.to_sym)
   end
 end
