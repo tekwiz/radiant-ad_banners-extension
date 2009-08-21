@@ -44,7 +44,7 @@ module AdBannerTags
   tag 'ad_banners:each' do |tag|
     options = tag.attr.dup
     result = []
-    ad_banners = AdBanner.find(:all)
+    ad_banners = AdBanner.displayable
     ad_banners.each do |ad_banner|
       tag.locals.ad_banner = ad_banner
       result << tag.expand

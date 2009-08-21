@@ -1,6 +1,7 @@
 class AdBanner < ActiveRecord::Base
-  default_scope :order => 'name ASC'
-
+  default_scope :order => 'weight ASC, created_at ASC'
+  named_scope :displayable, :conditions => ['weight > ?', 0]
+  
   belongs_to :asset
 
   validates_presence_of :name, :asset_id#, :link_url
