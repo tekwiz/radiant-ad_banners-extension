@@ -28,7 +28,7 @@
           = f.select :weight, (min_weight..10).to_a
         %p.title
           %label{:for => 'ad_banner_link_target'} Target Window
-          = f.select :link_target, [ [ 'Default', '' ], [ 'New Window', '_blank' ], [ 'Same Window', '_top' ] ]
+          = f.select :link_target, [ [ 'New Window', '_blank' ], [ 'Same Window', '_top' ], [ 'Browser Default', '' ] ]
   = javascript_tag "$('ad_banner_name').activate()"
   %p.buttons
     = save_model_button(@ad_banner)
