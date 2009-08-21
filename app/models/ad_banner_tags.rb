@@ -18,17 +18,24 @@ module AdBannerTags
                 end
     unless ad_banner.nil?
       @selected_banners << ad_banner.id
-      # The HTML is simple enough to roll by hand instead of sucking in REXML
-      returning String.new do |result|
-        if ad_banner.link_url
-          result << %Q{<a href="#{CGI.escapeHTML(ad_banner.link_url)}"}
-          result << %Q{ target="#{ad_banner.link_target}"} unless ad_banner.link_target.blank?
-          result << '>'
-        end
-        result << %Q{<img src="#{ad_banner.image_src(tag.attr['version'])}" title="#{ad_banner.name}" alt="#{ad_banner.asset.caption || ad_banner.asset.title}" />}
-        result << '</a>' if ad_banner.link_url
-      end
+      banner_link(ad_banner, tag.attr['version'])
+    else
+      return nil
     end
   end
 
+  private
+  
+    def banner_link( ad_banner, version )
+      # The HTML is simple enough to roll by hand instead of sucking in REXML
+      result = String.new
+      if ad_banner.link_url
+        result << %Q{<a href="#{CGI.escapeHTML(ad_banner.link_url)}"}
+        result << %Q{ target="#{ad_banner.link_target}"} unless ad_banner.link_target.blank?
+        result << '>'
+      end
+      result << %Q{<img src="#{ad_banner.image_src(version)}" title="#{ad_banner.name}" alt="#{ad_banner.asset.caption || ad_banner.asset.title}" />}
+      result << '</a>' if ad_banner.link_url
+      return result
+    end
 end
