@@ -2,9 +2,9 @@
 # require_dependency 'application'
 
 class AdBannersExtension < Radiant::Extension
-  version "0.1"
+  version "1.0"
   description "Manage ad banners"
-  url "http://github.com/davec/radiant-ad_banners-extension"
+  url "http://github.com/tekwiz/radiant-ad_banners-extension"
   
   define_routes do |map|
     map.namespace :admin, :member => { :remove => :get } do |admin|
