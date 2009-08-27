@@ -8,6 +8,8 @@ If you are using Radiant 0.7.1, please pull from the radiant-0.7.1 branch.
 
 == Installation
 
+**This extension requires the rbac_base extension**
+
 This extension relies on the paperclipped extension, so install it first if you
 are not already using it:
 
