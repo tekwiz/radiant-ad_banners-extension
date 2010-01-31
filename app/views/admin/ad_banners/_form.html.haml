@@ -37,7 +37,7 @@
           = f.select :link_target, [ [ 'New Window', '_blank' ], [ 'Same Window', '_top' ], [ 'Browser Default', '' ] ]
   = javascript_tag "$('ad_banner_name').activate()"
   %p.buttons
-    = save_model_button(@ad_banner)
+    = save_model_button(@ad_banner, :label => (@ad_banner.new_record? 'Create Image Link' : 'Save Changes'))
     = save_model_and_continue_editing_button(@ad_banner)
     or
     = link_to('Cancel', admin_ad_banners_url)
