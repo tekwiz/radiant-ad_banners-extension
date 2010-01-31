@@ -3,7 +3,7 @@
 
 class AdBannersExtension < Radiant::Extension
   version "1.0"
-  description "Manage ad banners"
+  description "Manage image links"
   url "http://github.com/tekwiz/radiant-ad_banners-extension"
   
   define_routes do |map|
@@ -16,7 +16,7 @@ class AdBannersExtension < Radiant::Extension
     Radiant::AdminUI.send :include, AdBannersAdminUI unless defined? admin.ad_banner
     admin.ad_banner = Radiant::AdminUI.load_default_ad_banner_regions
 
-    admin.tabs.add "Ads", "/admin/ad_banners", :after => "Layouts", :visibility => [:ads]
+    admin.tabs.add "Image Links", "/admin/ad_banners", :after => "Layouts", :visibility => [:ads]
     Page.send :include, AdBannerTags
   end
   

@@ -1,9 +1,9 @@
 - include_stylesheet 'admin/ad_banners'
 
-%h1 Ad Banners
+%h1 Image Links
 
 %p
-  Click on an ad banner name below to edit it, or click <code>Remove</code> to delete it.
+  Click on an image link name below to edit it, or click <code>Remove</code> to delete it.
 
 %table#ad_banners.index
   %thead
@@ -27,7 +27,7 @@
         - unless Radiant::Config['ad_banners.categories'].blank?
           %td.category &nbsp;
         %td.note{ :colspan => '5' }
-          No Ad Banners
+          No Image Links
     - else
       - @ad_banners.each do |ad_banner|
         %tr.node.level-1
@@ -44,7 +44,7 @@
           %td.url
             = auto_link ad_banner.link_url
           %td.remove
-            = link_to(image('remove', :alt => 'Remove Ad Banner'), remove_admin_ad_banner_url(ad_banner))
+            = link_to(image('remove', :alt => 'Remove Image Link'), remove_admin_ad_banner_url(ad_banner))
 
 %p
-  = link_to(image('ad_banners/new-ad', :alt => 'New Ad Banner'), new_admin_ad_banner_url)
+  = link_to(image('ad_banners/new-ad', :alt => 'New Image Link'), new_admin_ad_banner_url)

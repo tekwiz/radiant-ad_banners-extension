@@ -1,8 +1,8 @@
 - include_stylesheet 'admin/ad_banners'
 
-%h1 Remove Ad Banner
+%h1 Remove Image Link
 
-%p Are you sure you want to <strong class="warning">permanently remove</strong> the following ad banner?
+%p Are you sure you want to <strong class="warning">permanently remove</strong> the following image link?
 
 %table#ad_banners.index
   %tbody
@@ -16,6 +16,6 @@
 
 - form_for [:admin, @ad_banner], :html => { :method => :delete } do
   %p.buttons
-    %input.button{ :type => 'submit', :value => 'Delete Ad Banner' }/
+    %input.button{ :type => 'submit', :value => 'Delete Image Link' }/
     or
     = link_to('Cancel', admin_ad_banners_url)
