@@ -9,11 +9,11 @@ module AdBannerTags
     A banner will only appear once on a given page unless otherwise forced with the @name@ attribute.
 
     *Usage:*
-    <pre><code><r:ad_banner [name="banner_name"] [version="asset_version"] /></code></pre>
+    <pre><code><r:ad_banner [name="banner_name"] [version="asset_version"] [category="Category Name"]/></code></pre>
   }
   tag 'ad_banner' do |tag|
     @selected_banners ||= []
-    ad_banner = find_ad_banner(tag) || AdBanner.select_banner(:exclude => @selected_banners)
+    ad_banner = find_ad_banner(tag) || AdBanner.select_banner(:exclude => @selected_banners, :category => tag.attr['category'])
     unless ad_banner.nil?
       @selected_banners << ad_banner.id
       banner_link(ad_banner, tag.attr['version'])
@@ -39,12 +39,16 @@ module AdBannerTags
     This tag does not require the name atttribute, nor do any of its children.
     
     *Usage:* 
-    <pre><code><r:ad_banners:each>...</r:ad_banners:each></code></pre>
+    <pre><code><r:ad_banners:each [category="Category Name"]>...</r:ad_banners:each></code></pre>
   }    
   tag 'ad_banners:each' do |tag|
     options = tag.attr.dup
     result = []
-    ad_banners = AdBanner.displayable
+    find_opts = {}
+    unless options['category'].blank?
+      find_opts[:conditions] = ['category = ?', options['category']]
+    end
+    ad_banners = AdBanner.displayable.find(:all, find_opts)
     ad_banners.each do |ad_banner|
       tag.locals.ad_banner = ad_banner
       result << tag.expand
@@ -82,7 +86,7 @@ module AdBannerTags
         result << %Q{ target="#{ad_banner.link_target}"} unless ad_banner.link_target.blank?
         result << '>'
       end
-      result << %Q{<img src="#{ad_banner.image_src(version)}" title="#{ad_banner.name}" alt="#{ad_banner.asset.caption || ad_banner.asset.title}" />}
+      result << %Q{<img src="#{ad_banner.image_src(version)}" title="#{ad_banner.name}" alt="#{ad_banner.asset.title || ad_banner.asset.caption}" />}
       result << '</a>' if ad_banner.link_url
       return result
     end

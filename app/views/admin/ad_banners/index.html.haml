@@ -8,6 +8,9 @@
 %table#ad_banners.index
   %thead
     %tr
+      - unless Radiant::Config['ad_banners.categories'].blank?
+        %th.category
+          Category
       %th.name
         Name
       %th.image
@@ -21,11 +24,16 @@
   %tbody
     - if @ad_banners.empty?
       %tr
+        - unless Radiant::Config['ad_banners.categories'].blank?
+          %td.category &nbsp;
         %td.note{ :colspan => '5' }
           No Ad Banners
     - else
       - @ad_banners.each do |ad_banner|
         %tr.node.level-1
+          - unless Radiant::Config['ad_banners.categories'].blank?
+            %td.category
+              = h(ad_banner.category)
           %td.name
             = image('ad_banners/ad')
             = link_to(h(ad_banner.name), edit_admin_ad_banner_url(ad_banner))

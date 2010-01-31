@@ -1,5 +1,5 @@
 class AdBanner < ActiveRecord::Base
-  default_scope :order => 'weight ASC, created_at ASC'
+  default_scope :order => (Radiant::Config['ad_banners.categories'].blank? ? '' : 'category, ')+'weight ASC, created_at ASC'
   named_scope :displayable, :conditions => ['weight > ?', 0]
   
   belongs_to :asset
@@ -11,10 +11,18 @@ class AdBanner < ActiveRecord::Base
 
   def self.select_banner(options = {})
     exclusions = options[:exclude] || []
-    weightings = find_by_sql("SELECT ad_banners.id,weight FROM ad_banners INNER JOIN assets ON assets.id = ad_banners.asset_id WHERE weight > 0").map do |banner|
+    
+    find_opts = {:select => 'ad_banners.id, weight',
+                 :conditions => ['weight > ?', 0]}
+    unless options[:category].blank?
+      find_opts[:conditions][0] += ' AND category = ?'
+      find_opts[:conditions] << options[:category]
+    end
+    
+    weightings = self.find(:all, find_opts).map do |banner|
       [banner.id] * (exclusions.include?(banner.id) ? 0 : banner.weight)
     end.flatten
-    find_by_id(weightings[rand(weightings.size)])
+    find_by_id(weightings[rand(weightings.size)], :include => :asset)
   end
 
   def image_src( version = nil )

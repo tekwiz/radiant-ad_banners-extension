@@ -10,6 +10,12 @@
         %p.title
           %label{:for => 'ad_banner_name'} Banner Name
           = f.text_field :name, :class => 'textbox', :maxlength => 255
+        - unless Radiant::Config['ad_banners.categories'].blank?
+          %p.title
+            %label{:for => 'ad_banner_category'} Category
+            - categories = Radiant::Config['ad_banners.categories'].split(',').collect {|c| c.strip}
+            - @ad_banner.category = nil unless categories.include?(@ad_bannery.category)
+            = f.select :category, categories
         %p.title
           %label{:for => 'ad_banner_asset_id'} Image Thumbnail
           %span#image-thumbnail{ :style => "width:#{thumb_width}px;height:#{thumb_height}px;" }
